@@ -48,7 +48,7 @@ $signPackage = $jssdk->GetSignPackage();
     		  wx.config({
 			    debug: false,
 			    appId: '<?php echo $signPackage["appId"];?>',
-			    timestamp: <?php echo $signPackage["timestamp"];?>,
+			    timestamp: '<?php echo $signPackage["timestamp"];?>',
 			    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
 			    signature: '<?php echo $signPackage["signature"];?>',
 			    jsApiList: ['onMenuShareTimeline',"onMenuShareAppMessage","onMenuShareQQ","onMenuShareQZone",]
@@ -57,7 +57,7 @@ $signPackage = $jssdk->GetSignPackage();
         // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
         wx.checkJsApi({
             jsApiList : ['onMenuShareTimeline','onMenuShareAppMessage',"onMenuShareQQ","onMenuShareQZone","hideMenuItems"],
-             
+
 		        });
 		        var strTiele="[!--hai_petition--] - 好琴声";
 		        var strDesc="选手姓名：[!--hai_name--];赛区：[!--hai_division--];目前票数：<?php $id=$_GET['id'];$tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");echo $tou[tou_num];?>票";
@@ -68,10 +68,10 @@ $signPackage = $jssdk->GetSignPackage();
 		            title : strTiele, // 分享标题
 		             desc : strDesc,//分享描述
 		             // link : strLink, // 分享链接
-		            imgUrl: strImgUrl,// 分享图标 
-		             
+		            imgUrl: strImgUrl,// 分享图标
+
 		        });
-		         
+
 		        //分享给微信好友
 		        wx.onMenuShareAppMessage({
 		            title : strTiele, // 分享标题
@@ -79,7 +79,7 @@ $signPackage = $jssdk->GetSignPackage();
 		             // link : strLink, // 分享链接
 		            imgUrl: strImgUrl,// 分享图标
 		        });
-		         
+
 		        //分享到QQ
 		        wx.onMenuShareQQ({
 		            title : strTiele, // 分享标题
@@ -87,13 +87,13 @@ $signPackage = $jssdk->GetSignPackage();
 		             // link : strLink, // 分享链接
 		            imgUrl: strImgUrl,// 分享图标
 		        });
-		         
+
 		        //分享到QQ空间
 		        wx.onMenuShareQZone({
 		            title : strTiele, // 分享标题
 		             desc : strDesc,//分享描述
 		             // link : strLink, // 分享链接
-		            imgUrl: strImgUrl,// 分享图标 
+		            imgUrl: strImgUrl,// 分享图标
 		        });
 		    });
 		}
@@ -129,11 +129,22 @@ $signPackage = $jssdk->GetSignPackage();
 		</div>
 		<div class="otherLogin clearfix">
 //		<script >
+			var getUserid2 = 0;
 		    $(function(){
-		         var GetUrl = encodeURIComponent('http://www.greattone.net/e/action/ShowInfo.php?classid=73&id=4164');
-//					console.log(GetUrl);
-		         $('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
-		    })
+				var GetUrl = encodeURIComponent(window.location.href);//获取当前页面URL，并编码
+					console.log(GetUrl);
+				//向微信授权登陆接口发送消息
+				$('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
+		    	var Getcode = '<?php if (isset($_GET['code'])){ echo $_GET['code'];} else {echo "0";} ?>';
+					console.log(Getcode);
+
+				if (Getcode != '0'){getUserid2 = Getcode};//把获取到的从code值当作了openid，未做完
+//				if (Getcode != '0'){
+//					$.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='+Getcode+'&grant_type=authorization_code', function(data) {
+//						console.log(data);
+//					});
+//				}
+			})
 //
 //		</script>
 			<!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect #wechat_redirect"  class="weixinLogin f-l-l" target="_self">微信登录</a>-->
