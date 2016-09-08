@@ -1,10 +1,10 @@
 <?php
 require_once "../weixin/jssdk.php";
-$jssdk = new JSSDK("wx0e7332e9adc4fffc", "cf05dfd82133829601b248ac6807488e");
+$jssdk = new JSSDK("wx61344f87c60e6c9c", "0a00f48e715df119e22583b2c4ec9a43");
 $signPackage = $jssdk->GetSignPackage();
 ?>
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>[!--hai_petition--] - 好琴声</title>
@@ -20,9 +20,6 @@ $signPackage = $jssdk->GetSignPackage();
 	<link rel="stylesheet" type="text/css" href="[!--news.url--]css/haixuan.css">
 	<link rel="stylesheet" type="text/css" href="[!--news.url--]css/haixuanphone1.css">
 	<link rel="stylesheet" type="text/css" href="/e/haitou/new-login-reg/css/style.css">
-	<style type="text/css">
-		a.player_control_bar_logo{display:none !important;}
-  	</style>
     <script type="text/javascript" src="[!--news.url--]js/jquery-1.11.3.min.js"></script>
 	<script language="javascript" src="/js/language.js"></script>
 	<script src="/e/haitou/new-login-reg/js/common.js"></script>
@@ -39,13 +36,11 @@ $signPackage = $jssdk->GetSignPackage();
 	</script>
 	<script type="text/javascript" src="[!--news.url--]js/xin_haixuan.js" ></script>
 	<script type="text/javascript" src="[!--news.url--]js/area.js"></script>
-        <!--<script type="text/javascript" src="[!--news.url--]e/data/js/ajax.js"></script>-->
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript">
 	var ua = navigator.userAgent.toLowerCase();
 	if(ua.match(/MicroMessenger/i)=="micromessenger") {
 		// 匹配是微信浏览器再去验证微信权限
-
     	var TimeStamp,
     		NonceStr,
     		Signature;
@@ -102,6 +97,11 @@ $signPackage = $jssdk->GetSignPackage();
 		    });
 		}
     </script> 
+	<style type="text/css">
+		a.player_control_bar_logo{
+		display:none !important;
+	}
+  </style>
     <script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva.js"></script>
     <script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva_Compatible.js"></script>	
     <script type="text/javascript" src="[!--news.url--]e/extend/lgyPl/api.js"></script>
@@ -132,7 +132,7 @@ $signPackage = $jssdk->GetSignPackage();
 			<p>账号或者密码错误，请重新输入！</p>
 		</div>
 		<div class="otherLogin clearfix">
-			<a href="" class="weixinLogin f-l-l" target="_self">微信登录</a>
+			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net/e/action/ShowInfo.php?classid=73&id=4164&response_type=code&scope=snsapi_userinfo#wechat_redirect" class="weixinLogin f-l-l" target="_self">微信登录</a>
 			<a href="" class="qqLogin f-l-l" target="_self">QQ登录</a>
 			<a href="" class="facebookLogin f-l-l" target="_self">FB登入</a>
 		</div>
