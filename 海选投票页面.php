@@ -132,7 +132,14 @@ $signPackage = $jssdk->GetSignPackage();
 			<p>账号或者密码错误，请重新输入！</p>
 		</div>
 		<div class="otherLogin clearfix">
-			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net/e/action/ShowInfo.php?classid=73&id=4164&response_type=code&scope=snsapi_userinfo#wechat_redirect" class="weixinLogin f-l-l" target="_self">微信登录</a>
+//		<script >
+//		    $(function(){
+//		         var GetUrl = encodeURI('http://www.greattone.net/e/action/ShowInfo.php?classid=73&id=4164');
+//		         $('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
+//		    })
+//
+//		</script>
+			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net&response_type=code&scope=snsapi_userinfo#wechat_redirect"  class="weixinLogin f-l-l" target="_self">微信登录</a>
 			<a href="" class="qqLogin f-l-l" target="_self">QQ登录</a>
 			<a href="" class="facebookLogin f-l-l" target="_self">FB登入</a>
 		</div>
