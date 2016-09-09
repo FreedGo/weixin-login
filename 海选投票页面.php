@@ -4,8 +4,7 @@
 		$user_info_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='.$code.'&grant_type=authorization_code';
 		$user_info = json_decode(file_get_contents($user_info_url));
 
-		print_r(json_decode($user_info, 1));
-	//	echo $user_info[openid];
+$openid = $user_info->openid;
 		//打印用户信息
 /*echo '<pre>';
 print_r($user_info);
@@ -147,7 +146,7 @@ $signPackage = $jssdk->GetSignPackage();
 					console.log(GetUrl);
 				//向微信授权登陆接口发送消息
 				$('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
-		    	var Getcode = '<?php if (isset($_GET['code'])){ echo $_GET['code'];} else {echo "0";} ?>';
+		    	var Getcode = '<?=$openid?>';
 					console.log(Getcode);
 
 				if (Getcode != '0'){getUserid2 = Getcode};//把获取到的从code值当作了openid，未做完
