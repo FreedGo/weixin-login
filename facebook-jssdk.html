@@ -3,8 +3,41 @@
 <head>
     <title>Facebook Login JavaScript Example</title>
     <meta charset="UTF-8">
+    <style type="text/css">
+        .FBsdkLogin{
+            background: #fff url(/images/other_login.jpg) -104px 0 no-repeat;height:50px;width:50px;
+            overflow: hidden;
+        }
+        .fb_iframe_widget span{
+            opacity: 0;
+            width:50px;
+            height:50px!important;
+        }
+    </style>
+    <script src="/js/jquery-1.11.3.min.js"></script>
 </head>
 <body>
+
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32">
+    <a class="jiathis_button_weixin"></a>
+    <a class="jiathis_button_fb"></a>
+    <a href="http://www.jiathis.com/share?uid=2111445" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+        data_track_clickback:true,
+        summary:"",
+        shortUrl:false,
+        hideMore:false
+    }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2111445" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+
+
 <script>
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
@@ -17,6 +50,9 @@
         if (response.status === 'connected') {
             // Logged into your app and Facebook.
             testAPI();
+            var uid = response.authResponse.userID;
+            var accessToken = response.authResponse.accessToken;
+            console.log(uid);
         } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
             document.getElementById('status').innerHTML = 'Please log ' +
@@ -79,11 +115,13 @@
     function testAPI() {
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function(response) {
+            console.log(response);
             console.log('Successful login for: ' + response.name);
             document.getElementById('status').innerHTML =
                     'Thanks for logging in, ' + response.name + '!';
         });
     }
+
 </script>
 
 <!--
@@ -92,30 +130,12 @@
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button class="FBsdkLogin"  scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">
 </div>
 
-<div class="jiathis_style_32x32" style="float:left">
-    <a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jtico jtico_weixin"></span></a>
-    <a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jtico jtico_tsina"></span></a>
-    <a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jtico jtico_qzone"></span></a>
-    <a class="jiathis_button_tqq" title="分享到腾讯微博"><span class="jiathis_txt jtico jtico_tqq"></span></a>
-    <a class="jiathis_button_fb" title="分享到Facebook"><span class="jiathis_txt jtico jtico_fb"></span></a>
-    <!--<a href="http://www.jiathis.com/share?uid=2111445" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>-->
-    <!--<a class="jiathis_counter_style"></a>-->
-    <script "text="" javascript"="">
-    var jiathis_config = {
-    // url: "http://www.yourdomain.com",
-    title: "中华好琴声-台北站 — 好琴声",
-    summary:"[!--guanjian--]",
-    pic:"http://www.greattone.net/d/file/2016-08-04/3387b47ee372ccaf5fa08dfb3cf21692.gif",
-    img_url:"http://www.greattone.net/d/file/2016-08-04/3387b47ee372ccaf5fa08dfb3cf21692.gif"
-    }
-    </script>
-    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2111445" charset="utf-8"></script><script type="text/javascript" src="http://v3.jiathis.com/code/plugin.client.js" charset="utf-8"></script>
-</div>
+
 </body>
 </html>

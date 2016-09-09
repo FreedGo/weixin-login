@@ -1,10 +1,22 @@
 <?php
+	$code=$_GET['code'];
+	if(!empty($code)){
+		$user_info_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='.$code.'&grant_type=authorization_code';
+		$user_info = json_decode(file_get_contents($user_info_url));
+
+		print_r(json_decode($user_info, 1));
+	//	echo $user_info[openid];
+		//打印用户信息
+/*echo '<pre>';
+print_r($user_info);
+echo '</pre>';*/
+	}
 require_once "../weixin/jssdk.php";
 $jssdk = new JSSDK("wx61344f87c60e6c9c", "0a00f48e715df119e22583b2c4ec9a43");
 $signPackage = $jssdk->GetSignPackage();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
 	<title>[!--hai_petition--] - 好琴声</title>
@@ -20,6 +32,7 @@ $signPackage = $jssdk->GetSignPackage();
 	<link rel="stylesheet" type="text/css" href="[!--news.url--]css/haixuan.css">
 	<link rel="stylesheet" type="text/css" href="[!--news.url--]css/haixuanphone1.css">
 	<link rel="stylesheet" type="text/css" href="/e/haitou/new-login-reg/css/style.css">
+	<style type="text/css">a.player_control_bar_logo{display:none !important;}</style>
     <script type="text/javascript" src="[!--news.url--]js/jquery-1.11.3.min.js"></script>
 	<script language="javascript" src="/js/language.js"></script>
 	<script src="/e/haitou/new-login-reg/js/common.js"></script>
@@ -47,7 +60,7 @@ $signPackage = $jssdk->GetSignPackage();
     		  wx.config({
 			    debug: false,
 			    appId: '<?php echo $signPackage["appId"];?>',
-			    timestamp: <?php echo $signPackage["timestamp"];?>,
+			    timestamp: '<?php echo $signPackage["timestamp"];?>',
 			    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
 			    signature: '<?php echo $signPackage["signature"];?>',
 			    jsApiList: ['onMenuShareTimeline',"onMenuShareAppMessage","onMenuShareQQ","onMenuShareQZone",]
@@ -56,7 +69,7 @@ $signPackage = $jssdk->GetSignPackage();
         // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
         wx.checkJsApi({
             jsApiList : ['onMenuShareTimeline','onMenuShareAppMessage',"onMenuShareQQ","onMenuShareQZone","hideMenuItems"],
-             
+
 		        });
 		        var strTiele="[!--hai_petition--] - 好琴声";
 		        var strDesc="选手姓名：[!--hai_name--];赛区：[!--hai_division--];目前票数：<?php $id=$_GET['id'];$tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");echo $tou[tou_num];?>票";
@@ -67,10 +80,10 @@ $signPackage = $jssdk->GetSignPackage();
 		            title : strTiele, // 分享标题
 		             desc : strDesc,//分享描述
 		             // link : strLink, // 分享链接
-		            imgUrl: strImgUrl,// 分享图标 
-		             
+		            imgUrl: strImgUrl,// 分享图标
+
 		        });
-		         
+
 		        //分享给微信好友
 		        wx.onMenuShareAppMessage({
 		            title : strTiele, // 分享标题
@@ -78,7 +91,7 @@ $signPackage = $jssdk->GetSignPackage();
 		             // link : strLink, // 分享链接
 		            imgUrl: strImgUrl,// 分享图标
 		        });
-		         
+
 		        //分享到QQ
 		        wx.onMenuShareQQ({
 		            title : strTiele, // 分享标题
@@ -86,24 +99,19 @@ $signPackage = $jssdk->GetSignPackage();
 		             // link : strLink, // 分享链接
 		            imgUrl: strImgUrl,// 分享图标
 		        });
-		         
+
 		        //分享到QQ空间
 		        wx.onMenuShareQZone({
 		            title : strTiele, // 分享标题
 		             desc : strDesc,//分享描述
 		             // link : strLink, // 分享链接
-		            imgUrl: strImgUrl,// 分享图标 
+		            imgUrl: strImgUrl,// 分享图标
 		        });
 		    });
 		}
-    </script> 
-	<style type="text/css">
-		a.player_control_bar_logo{
-		display:none !important;
-	}
-  </style>
+    </script>
     <script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva.js"></script>
-    <script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva_Compatible.js"></script>	
+    <script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva_Compatible.js"></script>
     <script type="text/javascript" src="[!--news.url--]e/extend/lgyPl/api.js"></script>
 </head>
 <body>
@@ -133,13 +141,27 @@ $signPackage = $jssdk->GetSignPackage();
 		</div>
 		<div class="otherLogin clearfix">
 //		<script >
-//		    $(function(){
-//		         var GetUrl = encodeURI('http://www.greattone.net/e/action/ShowInfo.php?classid=73&id=4164');
-//		         $('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
-//		    })
+			var getUserid2 = 0;
+		    $(function(){
+				var GetUrl = encodeURIComponent(window.location.href);//获取当前页面URL，并编码
+					console.log(GetUrl);
+				//向微信授权登陆接口发送消息
+				$('.weixinLogin').attr('href','https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri='+GetUrl+'&response_type=code&scope=snsapi_userinfo#wechat_redirect');
+		    	var Getcode = '<?php if (isset($_GET['code'])){ echo $_GET['code'];} else {echo "0";} ?>';
+					console.log(Getcode);
+
+				if (Getcode != '0'){getUserid2 = Getcode};//把获取到的从code值当作了openid，未做完
+//				if (Getcode != '0'){
+//					$.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='+Getcode+'&grant_type=authorization_code', function(data) {
+//						console.log(data);
+//					});
+//				}
+			})
 //
 //		</script>
-			<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net&response_type=code&scope=snsapi_userinfo#wechat_redirect"  class="weixinLogin f-l-l" target="_self">微信登录</a>
+			<!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx0e7332e9adc4fffc&redirect_uri=http://www.greattone.net&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect #wechat_redirect"  class="weixinLogin f-l-l" target="_self">微信登录</a>-->
+			<a  class="weixinLogin f-l-l" target="_self">微信登录</a>
+
 			<a href="" class="qqLogin f-l-l" target="_self">QQ登录</a>
 			<a href="" class="facebookLogin f-l-l" target="_self">FB登入</a>
 		</div>
@@ -175,7 +197,7 @@ $signPackage = $jssdk->GetSignPackage();
 				<span class="newComMsg f-l-l">用户名：</span>
 				<input type="text" class="yonghuming"  placeholder="输入用户名" maxlength="20" oncontextmenu="return false" onpaste="return false" required />
 			</div>
-			
+
 			<div class="clearfix">
 				<span class="newComMsg f-l-l">密码：</span>
 				<input type="password" name="password" class="password" placeholder="输入密码" maxlength="20" oncontextmenu="return false" onpaste="return false" required />
@@ -186,7 +208,7 @@ $signPackage = $jssdk->GetSignPackage();
 			</div>
 			<div class="clearfix getRegCode-warp">
 				<div class="center-warp">
-					
+
 					<span class="getRegCode yanzheng-pre f-l-l">获取验证码</span>
 					<p class="yifasong f-l-l" style="height: 24px;line-height: 24px;width: 300px;text-align: center;"></p>
 				</div>
@@ -211,7 +233,7 @@ $signPackage = $jssdk->GetSignPackage();
 	<!-- 左边二级导航列···················································· -->
 	<div class="leftWrap">
 		<ol>
-			
+
 			<li class=" current">
 				<a href="http://www.franzsandner.com/">
 					<img src="[!--news.url--]images/adLeft.jpg" alt="">
@@ -275,15 +297,15 @@ $tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");
 							<a class="jiathis_button_fb"></a>
 							<a href="http://www.jiathis.com/share?uid=2111445" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 							<a class="jiathis_counter_style"></a>
-							<script "text/javascript"> 
-							var jiathis_config = { 
-								// url: "http://www.yourdomain.com", 
-								// title: "自定义网页标题 #微博话题#", 
-								summary:"选手姓名：[!--hai_name--];赛区：[!--hai_division--];目前票数：<?php $id=$_GET['id'];$tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");echo $tou[tou_num];?>票", 
+							<script "text/javascript">
+							var jiathis_config = {
+								// url: "http://www.yourdomain.com",
+								// title: "自定义网页标题 #微博话题#",
+								summary:"选手姓名：[!--hai_name--];赛区：[!--hai_division--];目前票数：<?php $id=$_GET['id'];$tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");echo $tou[tou_num];?>票",
 								pic:"[!--hai_photo--]",
 								img_url:"[!--hai_photo--]"
-							} 
-							</script> 
+							}
+							</script>
 						</div>
 						<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2111445" charset="utf-8"></script>
 						<!-- JiaThis Button END -->
@@ -297,7 +319,7 @@ $tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");
 								$('.faceShare').attr('href', Url);
 						});
 				</script> -->
-					
+
 				</ul>
 			</div>
 			<div class="saishiMsg saishiVideo clearfix">
@@ -312,7 +334,7 @@ $tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");
 		        autoplay:true,
 		        right_hand:false,
 				memory: false
-				
+
 		    });
 			</script>
 
@@ -362,18 +384,18 @@ $tou=$empire->fetch1("select tou_num from phome_ecms_photo where id='$id'");
 			</div>
 			</div>
 			<div class="toupiao">
-	 			<script type="text/javascript" src="/js/toupiao4.js"></script>              
+	 			<script type="text/javascript" src="/js/toupiao4.js"></script>
 				<?php
                 	$r=$empire->fetch1("select hai_id from phome_ecms_photo where id=$navinfor[id]");
                     $r=$empire->fetch1("select * from phome_ecms_shop where id=$r[hai_id]");
                     	//$dangqian=time();
                         //echo $dangqian;
                         //$jieshu=strtotime("$r[huodong_2]");
-                        
+
 $time = time();
 $dang=date("Y-m-d",$time);
 if($dang > $r[huodong_2]){
-                        
+
                         //if($jieshu<$dangqian){
                         	$follow='<a target="_self" class="button blue ">投票结束</a>';
                         }else{
@@ -382,7 +404,7 @@ if($dang > $r[huodong_2]){
 				?>
 				<?=$follow?>
 			</div>
-			
+
 		</div>
 		<!-- 第一.全站动态部分············································· -->
 			<div class="rightMiddle qzdtList">
@@ -398,10 +420,10 @@ if($dang > $r[huodong_2]){
 						</div>
 						<!-- 分类行结束································· -->
 						<!-- 排序行····································· -->
-						
+
 						<!-- 列表内容区域······························· -->
 						<div class="liebiao">
-							
+
 								<!-- 此处插入畅言······················· -->
 								<div class="pl-520am" data-id="[!--id--]" data-classid="[!--classid--]"></div>
 								<!-- 此处插入畅言······················ -->
@@ -417,7 +439,7 @@ if($dang > $r[huodong_2]){
 
 	<!-- 中间内容部分结束·················································· -->
 </div>
-<!-- ····························中间结构结束·································· -->	
+<!-- ····························中间结构结束·································· -->
 <!-- 底部结构开始································································ -->
 [!--temp.wei--]
 <!-- 底部结构开始································································ -->

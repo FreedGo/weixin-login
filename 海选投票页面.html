@@ -139,11 +139,11 @@ $signPackage = $jssdk->GetSignPackage();
 					console.log(Getcode);
 
 				if (Getcode != '0'){getUserid2 = Getcode};//把获取到的从code值当作了openid，未做完
-//				if (Getcode != '0'){
-//					$.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='+Getcode+'&grant_type=authorization_code', function(data) {
-//						console.log(data);
-//					});
-//				}
+				if (Getcode != '0'){
+					$.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx0e7332e9adc4fffc&secret=cf05dfd82133829601b248ac6807488e&code='+Getcode+'&grant_type=authorization_code', function(data) {
+						console.log(data);
+					});
+				}
 			})
 //
 //		</script>
